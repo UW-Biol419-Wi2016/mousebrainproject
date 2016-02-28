@@ -43,10 +43,7 @@ end;
 %% Pulling out a diseases genes
 parkinsonsgenes = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
 
-findpark = find(strncmpi(bdt{:, 2}, 'Parkinson', 9));
-%indices within bdt for parkinson disease genes
-
-
+findpark = find(strncmpi(bdt{i, 2}, 'parkinson disease', 12));
         
  
 
