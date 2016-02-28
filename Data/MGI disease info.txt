@@ -1,0 +1,1 @@
+Input	Input Type	MGI Gene/Marker ID	OMIM ID	Term
