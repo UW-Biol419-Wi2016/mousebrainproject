@@ -122,6 +122,18 @@ end;
 %region than another
 
 %visually looked at braintable to confirm this result
+
+%% Making random shuffles of genes to make sets of genebyregion matrices (for control)
+
+
+
+%% Measuring covariance of test set
+
+covdisease = cov(genebyregion);
+
+
+
+
 %% Sorting the brain-disease table (finding disease-related values only)
 %broken code that could sort bdt 
 
