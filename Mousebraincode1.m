@@ -1,9 +1,9 @@
 %Part 1 - setting up github
 
 %% reading data
-braintable = readtable('BrainRegionTotalDataset_Log2FoldChange.xlsx');
-diseasetable = readtable('MGIdisease.txt', 'delimiter', 'tab',...
-    'readvariablenames', 0);
+braintable = readtable('/Users/esteligarcia/GitHub/Data/BrainRegionTotalDataset_Log2FoldChange.xlsx');
+diseasetable = readtable('/Users/esteligarcia/GitHub/Data/MGIdisease.txt',...
+    'delimiter', 'tab','readvariablenames', 0);
 % testing if names are the same
 
 %% string comparisons
@@ -13,7 +13,6 @@ bdt = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
 for i = 1:8715
     %for loop to compare each element of braintable (gene names column)
     %with all gene names in disease table to see if there is a match
-    
     braingenestemp = strncmpi(braintable{i, 1}, diseasetable{:, 1}, 10);
     %compares strings of ith gene of braintable and all gene names of
     %disease table to find a match
@@ -106,11 +105,8 @@ for i = 1:numgenesspec
             %(where the temploc index is from)
         end;
 end;
-
 %none of the parkinson's genes are considerably more expressed in one brain
-%region than another
-
-%visually looked at braintable to confirm this result
+%region than another, visually looked at braintable to confirm this result
 
 parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
 
@@ -334,8 +330,24 @@ covariancetable = {'oneby1',
     
    % eval(covariancetable(1))
     
-    
+%% figures for interim report
+figure;
+contour(genebyregion)
+xlabel('brain region')
+ylabel('gene number')
 
+for i = 1:100
+    numgenes = 11;
+    randomperm = randperm(9669);
+    randomsel = randomperm(1:numgenes);
+    randomgenetable = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
+    temprandomtablepre = bdt(randomsel,:); %shuffled genes
+    randomgenetable(i) = [temprandomtablepre]; %adds shuffled genes to table
+    controlgenebyregion = genebyregionmaker(randomgenetable, braintable,...
+        brainregionmat);
+end;
 
-
-
+figure;
+contour(controlgenebyregion)
+xlabel('brain region')
+ylabel('gene number')
