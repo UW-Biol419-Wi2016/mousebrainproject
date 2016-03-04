@@ -110,14 +110,39 @@ end;
 %visually looked at braintable to confirm this result
 
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
-randomgenetable = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
+randomgenes = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
+
 randomperm = bdt(randperm(height(bdt)),:) %shuffled genes
-randomgenetable = [randomperm; table(GeneName, DiseaseInfo)]; %adds shuffled
+
+randomgenes = [randomperm; table(GeneName, DiseaseInfo)]; %adds shuffled
 %genes to table
 
-randomgenetable;
-numgenes = 9669;
-controlgenebyregion = genebyregionmaker(randomgenetable, 9669)
+diseasegenes = parkinsonsgenes;
+numgenes = 11;
+genebyregion = [];
+%initializes matrix for gene by region data
+
+%'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
+%1:9 names of new double's columns
+for i = 1:numgenes
+    braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
+    matches = max(braingenestemp);
+    if matches == 1;
+    %if there is a disease gene match, then:
+   
+            temploc = find(max(braingenestemp));
+            %finds location of max of braingenestemp (where match occurred)
+            
+            genebyregion(i, :) = brainregionmat(temploc, :);
+            %makes the ith row of genebyregion into the temploc row of
+            %brainregionmat, which is arranged the same as braintable
+            %(where the temploc index is from)
+        end;
+end;
+
+%none of the parkinson's genes are considerably more expressed in one brain
+%region than another
+
 %visually looked at braintable to confirm this result
 %% Measuring covariance of test set
 
