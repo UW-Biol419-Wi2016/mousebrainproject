@@ -90,13 +90,8 @@ genebyregion = [];
 %'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:9 names of new double's columns
 parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
-<<<<<<< HEAD
-=======
-
-
 %insert other genes here
 
->>>>>>> Big-problem
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
  n = 9 ;
     covvalcell = cell(n, 1) ;
@@ -134,12 +129,6 @@ for i = 1:numcontrols
 end;
     
 %visually looked at braintable to confirm this result
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> Big-problem
 %% Histograms of controls
 %lol = covvalcell{1,1}(1,1); %returns 0 = OK
 %indexing pattern for retrieving values within arrays within a cell
@@ -213,19 +202,8 @@ for j = 1:9
         %holds means in same order as controlcov (regionwise))
         controlstd(j, i) = std(num{j}(:, i));
     end;
-<<<<<<< HEAD
-    subplot(3, 3, j);
-    histogram(histmat2, 10);
 end; 
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> Big-problem
 %% Measuring covariance of test set
 
 covdisease = cov(genebyregion);
@@ -297,8 +275,6 @@ for i = 1:numgenesspec
 end;
 %none of the parkinson's genes are considerably more expressed in one brain
 %region than another, visually looked at braintable to confirm this result
-=======
-end;
 
 %% Calculating std from mean for parkinsons vs controls
 %parkinsonsmat
@@ -311,6 +287,4 @@ for i= 1:9
     %for each value of parkinsons covariance, subtract the mean from that
     %value and divide by the std for that value to get the mahalanobis
     %distance for each brain region 
-end
-
->>>>>>> Big-problem
+end;
