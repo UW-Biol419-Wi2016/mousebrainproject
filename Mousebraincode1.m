@@ -2,7 +2,8 @@
 
 %% reading data
 braintable = readtable('BrainRegionTotalDataset_Log2FoldChange.xlsx');
-diseasetable = readtable('MGIdisease.txt', 'delimiter', 'tab', 'readvariablenames', 0);
+diseasetable = readtable('MGIdisease.txt', 'delimiter', 'tab',...
+    'readvariablenames', 0);
 % testing if names are the same
 
 %% string comparisons
@@ -150,6 +151,7 @@ for i = 1:numcontrols
 end;
     
 %visually looked at braintable to confirm this result
+<<<<<<< Updated upstream
 
 
 %% Histograms of controls
@@ -190,6 +192,14 @@ end;
 
 
 
+<<<<<<< HEAD
+=======
+meanhist = mean(fourby5)
+=======
+%%
+
+>>>>>>> Stashed changes
+>>>>>>> 3165cbc35345716a602062e23beddeac3de4fe05
 %% Measuring covariance of test set
 
 covdisease = cov(genebyregion);
