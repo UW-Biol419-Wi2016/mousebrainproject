@@ -90,6 +90,13 @@ genebyregion = [];
 %'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:9 names of new double's columns
 parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
+<<<<<<< HEAD
+=======
+
+
+%insert other genes here
+
+>>>>>>> Big-problem
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
  n = 9 ;
     covvalcell = cell(n, 1) ;
@@ -140,27 +147,73 @@ end;
 %matrices holding each successive rows combinations data for histograms
 covtemp = zeros(9);
 
-for i= 1:9
-   covtemp(i, 1:i) = covvalcell{1, 1}(i, 1:i);
+temp1 = [];
+temp2 = [];
+temp3 = []; 
+temp4 = [];
+temp5 = [];
+temp6 = [];
+temp7 = [];
+temp8 = [];
+temp9 = [];
+
+%how to read temp matrices. second brain region is number on matrix name.
+%first brain region is column of matrix.
+
+for j = 1:length(covvalcell)
+    for i= 1:9
+        covtemp(i, 1:i) = covvalcell{j, 1}(i, 1:i);
+        temp1(j, 1:1) = covtemp(1, 1:1);
+        temp2(j, 1:2) = covtemp(2, 1:2);
+        temp3(j, 1:3) = covtemp(3, 1:3);
+        temp4(j, 1:4) = covtemp(4, 1:4);
+        temp5(j, 1:5) = covtemp(5, 1:5);
+        temp6(j, 1:6) = covtemp(6, 1:6);
+        temp7(j, 1:7) = covtemp(7, 1:7);
+        temp8(j, 1:8) = covtemp(8, 1:8);
+        temp9(j, 1:9) = covtemp(9, 1:9);
+    end;
     
 end;
 
 
 %%
-figure;
-for j = 1:9
-    for i = 1:100
-        histmat1(1, i) = covvalcell{i, 1}(1, j);
-    end;
-    subplot(3, 3, j);
-    histogram(histmat1, 10);
-end; 
 
-figure;
-for j = 2:9
-    for i = 1:100
-        histmat2(1, i) = covvalcell{i, 1}(2, j);
+
+num = {temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9};
+
+for i = 1:9
+[trow(i), tcol(i)] = size(num{i});
+end;
+%vector of column numbers for each temp matrix
+
+%%
+
+controlstd = [];
+
+controlmean = [];
+
+
+for j = 1:9
+    %running for each temp matrix
+    for i = 1:tcol(j)
+        %running for each column of the given matrix
+        formatSpec = 'Region %d by region %d';
+        A1 = i;
+        A2 = j;
+        str = sprintf(formatSpec,A1,A2);
+        %names each histogram the correct value
+        %figure;
+        %histogram(num{j}(:, i), 10);
+        %title(str);
+        %graphs histogram of all rows (controls) and i columns (one
+        %histogram for each brain region comparison
+        controlmean(j, i) = mean(num{j}(:, i));
+        %adds into matrix the means of each combo (lower left triangle
+        %holds means in same order as controlcov (regionwise))
+        controlstd(j, i) = std(num{j}(:, i));
     end;
+<<<<<<< HEAD
     subplot(3, 3, j);
     histogram(histmat2, 10);
 end; 
@@ -244,3 +297,20 @@ for i = 1:numgenesspec
 end;
 %none of the parkinson's genes are considerably more expressed in one brain
 %region than another, visually looked at braintable to confirm this result
+=======
+end;
+
+%% Calculating std from mean for parkinsons vs controls
+%parkinsonsmat
+%controlstd
+%controlmean
+parkinsonsdist = [];
+parkinsonscov = cov(parkinsonsmat);
+for i= 1:9
+    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
+    %for each value of parkinsons covariance, subtract the mean from that
+    %value and divide by the std for that value to get the mahalanobis
+    %distance for each brain region 
+end
+
+>>>>>>> Big-problem
