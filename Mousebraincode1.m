@@ -87,29 +87,9 @@ numgenesspec = height(diseasegenes);
 genebyregion = [];
 %initializes matrix for gene by region data
 
-
 %'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:9 names of new double's columns
-for i = 1:numgenesspec
-    braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
-    matches = max(braingenestemp);
-    if matches == 1;
-    %if there is a disease gene match, then:
-   
-            temploc = find(braingenestemp == 1);
-            %finds location of max of braingenestemp (where match occurred)
-            
-            genebyregion(i, :) = brainregionmat(temploc, :);
-            %makes the ith row of genebyregion into the temploc row of
-            %brainregionmat, which is arranged the same as braintable
-            %(where the temploc index is from)
-        end;
-end;
-%none of the parkinson's genes are considerably more expressed in one brain
-%region than another, visually looked at braintable to confirm this result
-
 parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
-
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
  n = length(controlcov) ;
     covvalcell = cell(n, 1) ;
@@ -147,9 +127,6 @@ for i = 1:numcontrols
 end;
     
 %visually looked at braintable to confirm this result
-<<<<<<< Updated upstream
-
-
 %% Histograms of controls
 %lol = covvalcell{1,1}(1,1); %returns 0 = OK
 %indexing pattern for retrieving values within arrays within a cell
@@ -178,24 +155,6 @@ for j = 2:9
     histogram(histmat2, 10);
 end; 
 
-
-
-
-
-
-
-
-
-
-
-<<<<<<< HEAD
-=======
-meanhist = mean(fourby5)
-=======
-%%
-
->>>>>>> Stashed changes
->>>>>>> 3165cbc35345716a602062e23beddeac3de4fe05
 %% Measuring covariance of test set
 
 covdisease = cov(genebyregion);
@@ -273,27 +232,21 @@ covariancetable = {'oneby1',
 
 %for i = 1:45
     %searches the table of names
+%% Gene by region for-loop
+for i = 1:numgenesspec
+    braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
+    matches = max(braingenestemp);
+    if matches == 1;
+    %if there is a disease gene match, then:
    
-    
-    
-%% figures for interim report
-figure;
-contour(parkinsonsmat)
-xlabel('brain region')
-ylabel('gene number')
-title('Parkinsons Gene Expression by Region')
-
-    numgenes = 11;
-    randomperm = randperm(9669);
-    randomsel = randomperm(1:numgenes);
-    randomgenetable = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
-    temprandomtablepre = bdt(randomsel,:); %shuffled genes
-    randomgenetable = [temprandomtablepre]; %adds shuffled genes to table
-    controlgenebyregion = genebyregionmaker(randomgenetable, braintable,...
-        brainregionmat);
-    
-figure;
-contour(controlgenebyregion)
-xlabel('brain region')
-ylabel('gene number')
-title('Random Gene Expression by Region')
+            temploc = find(braingenestemp == 1);
+            %finds location of max of braingenestemp (where match occurred)
+            
+            genebyregion(i, :) = brainregionmat(temploc, :);
+            %makes the ith row of genebyregion into the temploc row of
+            %brainregionmat, which is arranged the same as braintable
+            %(where the temploc index is from)
+        end;
+end;
+%none of the parkinson's genes are considerably more expressed in one brain
+%region than another, visually looked at braintable to confirm this result
