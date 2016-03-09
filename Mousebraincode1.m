@@ -278,22 +278,22 @@ covariancetable = {'oneby1',
     
 %% figures for interim report
 figure;
-contour(genebyregion)
+contour(parkinsonsmat)
 xlabel('brain region')
 ylabel('gene number')
+title('Parkinsons Gene Expression by Region')
 
-for i = 1:100
     numgenes = 11;
     randomperm = randperm(9669);
     randomsel = randomperm(1:numgenes);
     randomgenetable = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
     temprandomtablepre = bdt(randomsel,:); %shuffled genes
-    randomgenetable(i) = [temprandomtablepre]; %adds shuffled genes to table
+    randomgenetable = [temprandomtablepre]; %adds shuffled genes to table
     controlgenebyregion = genebyregionmaker(randomgenetable, braintable,...
         brainregionmat);
-end;
-
+    
 figure;
 contour(controlgenebyregion)
 xlabel('brain region')
 ylabel('gene number')
+title('Random Gene Expression by Region')
