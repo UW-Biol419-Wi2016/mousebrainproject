@@ -110,9 +110,6 @@ end;
 
 parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
 
-
-%insert other genes here
-
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
  n = 9 ;
     covvalcell = cell(n, 1) ;
@@ -232,12 +229,98 @@ end;
 %parkinsonsmat
 %controlstd
 %controlmean
-parkinsonsdist = [];
+
 parkinsonscov = cov(parkinsonsmat);
 for i= 1:9
     parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
-    %for each value of parkinsons covariance, subtract the mean from that
-    %value and divide by the std for that value to get the mahalanobis
-    %distance for each brain region 
+    %for each value of parkinsons covariance, subtract the standard
+    %deviation from 
 end
 
+
+
+
+%% Title table
+
+
+
+
+
+
+%% Measuring covariance of test set
+
+covdisease = cov(genebyregion);
+
+%% experimenting with tables and cells
+covariancetable = {'oneby1', 
+'oneby2',
+'oneby3', 
+'oneby4', 
+'oneby5',
+'oneby6',
+'oneby7',
+'oneby8', 
+'oneby9',
+'twoby2',
+'twoby3',
+'twoby4',
+'twoby5',
+'twoby6',
+'twoby7',
+'twoby8',
+'twoby9',
+'threeby3',
+'threeby4',
+'threeby5',
+'threeby6',
+'threeby7',
+'threeby8',
+'threeby9',
+'fourby4',
+'fourby5',
+'fourby6',
+'fourby7',
+'fourby8',
+'fourby9',
+'fiveby5',
+'fiveby6',
+'fiveby7',
+'fiveby8',
+'fiveby9',
+'sixby6',
+'sixby7',
+'sixby8',
+'sixby9',
+'sevenby7',
+'sevenby8',
+'sevenby9',
+'eightby8',
+'eightby9',
+'nineby9'};
+
+%for i = 1:45
+    %searches the table of names
+   
+    
+    
+%% figures for interim report
+figure;
+contour(genebyregion)
+xlabel('brain region')
+ylabel('gene number')
+
+for i = 1:100
+    numgenes = 11;
+    randomperm = randperm(9669);
+    randomsel = randomperm(1:numgenes);
+    randomgenetable = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
+    temprandomtablepre = bdt(randomsel,:); %shuffled genes
+    randomgenetable(i) = [temprandomtablepre]; %adds shuffled genes to table
+    controlgenebyregion = genebyregionmaker(randomgenetable, braintable,...
+        brainregionmat);
+end;
+
+figure;
+contour(controlgenebyregion)
+xlabel('brain region')
+ylabel('gene number')
