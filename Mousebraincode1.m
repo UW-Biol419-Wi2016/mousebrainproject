@@ -56,7 +56,7 @@ findpark = find(strncmpi(bdt{:, 2}, 'Parkinson', 9));
 %brain table sorting (turning into a matrix and tagging genes that are
 %correlated with the chosen disease. First converting to double, then
 %choosing subset of genes
-brainregiontable = braintable{:, 25:33};
+brainregiontable = braintable{:, 24:33};
 %isolates brain region expression info into a separate table
 
 brainregionmat = [];
@@ -65,7 +65,7 @@ brainregionmat = [];
 for j = 1:8715
     %searches all rows of brain region table
     
-    for i = 1:9
+    for i = 1:10
         %searches the brain region row
     
         if strncmpi(brainregiontable{j, i}, '+', 3) == 1
@@ -87,13 +87,13 @@ numgenesspec = height(diseasegenes);
 genebyregion = [];
 %initializes matrix for gene by region data
 
-%'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
+%'brain stem', 'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:9 names of new double's columns
 parkinsonsmat = genebyregionmaker(diseasegenes, braintable, brainregionmat);
 %insert other genes here
 
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
- n = 9 ;
+ n = 10 ;
     covvalcell = cell(n, 1) ;
     %makes a cell matrix to store all matrices from the loop
 
@@ -134,7 +134,7 @@ end;
 %indexing pattern for retrieving values within arrays within a cell
 
 %matrices holding each successive rows combinations data for histograms
-covtemp = zeros(9);
+covtemp = zeros(10);
 
 temp1 = [];
 temp2 = [];
@@ -145,12 +145,13 @@ temp6 = [];
 temp7 = [];
 temp8 = [];
 temp9 = [];
+temp10 = [];
 
 %how to read temp matrices. second brain region is number on matrix name.
 %first brain region is column of matrix.
 
 for j = 1:length(covvalcell)
-    for i= 1:9
+    for i= 1:10
         covtemp(i, 1:i) = covvalcell{j, 1}(i, 1:i);
         temp1(j, 1:1) = covtemp(1, 1:1);
         temp2(j, 1:2) = covtemp(2, 1:2);
@@ -161,6 +162,7 @@ for j = 1:length(covvalcell)
         temp7(j, 1:7) = covtemp(7, 1:7);
         temp8(j, 1:8) = covtemp(8, 1:8);
         temp9(j, 1:9) = covtemp(9, 1:9);
+        temp10(j, 1:10) = covtemp(10, 1:10);
     end;
     
 end;
@@ -169,9 +171,9 @@ end;
 %%
 
 
-num = {temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9};
+num = {temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10};
 
-for i = 1:9
+for i = 1:10
 [trow(i), tcol(i)] = size(num{i});
 end;
 %vector of column numbers for each temp matrix
@@ -183,7 +185,7 @@ controlstd = [];
 controlmean = [];
 
 
-for j = 1:9
+for j = 1:10
     %running for each temp matrix
     for i = 1:tcol(j)
         %running for each column of the given matrix
@@ -234,4 +236,21 @@ for i = 1:numgenesspec
         end;
 end;
 %none of the parkinson's genes are considerably more expressed in one brain
+<<<<<<< HEAD
 %region than another, visually looked at braintable to confirm this result
+=======
+%region than another, visually looked at braintable to confirm this result
+
+%% Calculating std from mean for parkinsons vs controls
+%parkinsonsmat
+%controlstd
+%controlmean
+parkinsonsdist = [];
+parkinsonscov = cov(parkinsonsmat);
+for i= 1:10
+    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
+    %for each value of parkinsons covariance, subtract the mean from that
+    %value and divide by the std for that value to get the mahalanobis
+    %distance for each brain region 
+end;
+>>>>>>> origin/master
