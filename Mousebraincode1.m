@@ -204,59 +204,8 @@ for j = 1:9
     end;
 end; 
 
-%% Measuring covariance of test set
 
-covdisease = cov(genebyregion);
 
-%% experimenting with tables and cells
-covariancetable = {'oneby1', 
-'oneby2',
-'oneby3', 
-'oneby4', 
-'oneby5',
-'oneby6',
-'oneby7',
-'oneby8', 
-'oneby9',
-'twoby2',
-'twoby3',
-'twoby4',
-'twoby5',
-'twoby6',
-'twoby7',
-'twoby8',
-'twoby9',
-'threeby3',
-'threeby4',
-'threeby5',
-'threeby6',
-'threeby7',
-'threeby8',
-'threeby9',
-'fourby4',
-'fourby5',
-'fourby6',
-'fourby7',
-'fourby8',
-'fourby9',
-'fiveby5',
-'fiveby6',
-'fiveby7',
-'fiveby8',
-'fiveby9',
-'sixby6',
-'sixby7',
-'sixby8',
-'sixby9',
-'sevenby7',
-'sevenby8',
-'sevenby9',
-'eightby8',
-'eightby9',
-'nineby9'};
-
-%for i = 1:45
-    %searches the table of names
 %% Gene by region for-loop
 for i = 1:numgenesspec
     braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
