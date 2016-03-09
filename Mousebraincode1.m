@@ -1,8 +1,8 @@
 %Part 1 - setting up github
 
 %% reading data
-braintable = readtable('BrainRegionTotalDataset_Log2FoldChange.xlsx');
-diseasetable = readtable('MGIdisease.txt',...
+braintable = readtable('/Users/esteligarcia/GitHub/Data/BrainRegionTotalDataset_Log2FoldChange.xlsx');
+diseasetable = readtable('/Users/esteligarcia/GitHub/Data/MGIdisease.txt',...
     'delimiter', 'tab','readvariablenames', 0);
 % testing if names are the same
 
@@ -89,7 +89,7 @@ genebyregion = [];
 
 %'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:9 names of new double's columns
-parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
+parkinsonsmat = genebyregionmaker(diseasegenes, braintable, brainregionmat);
 %insert other genes here
 
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
@@ -102,7 +102,7 @@ parkinsonsmat = genebyregionmaker(parkinsonsgenes, braintable, brainregionmat);
 %as specified below)
 %'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:9 names of new double's columns
-
+controlgenebyregion = [];
 numcontrols = 100;
 for i = 1:numcontrols
 
@@ -205,7 +205,18 @@ for j = 1:9
 end; 
 
 
-
+%% Calculating std from mean for parkinsons vs controls
+%parkinsonsmat
+%controlstd
+%controlmean
+parkinsonsdist = [];
+parkinsonscov = cov(parkinsonsmat);
+for i= 1:9
+    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
+    %for each value of parkinsons covariance, subtract the mean from that
+    %value and divide by the std for that value to get the mahalanobis
+    %distance for each brain region 
+end;
 %% Gene by region for-loop
 for i = 1:numgenesspec
     braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
@@ -224,16 +235,3 @@ for i = 1:numgenesspec
 end;
 %none of the parkinson's genes are considerably more expressed in one brain
 %region than another, visually looked at braintable to confirm this result
-
-%% Calculating std from mean for parkinsons vs controls
-%parkinsonsmat
-%controlstd
-%controlmean
-parkinsonsdist = [];
-parkinsonscov = cov(parkinsonsmat);
-for i= 1:9
-    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
-    %for each value of parkinsons covariance, subtract the mean from that
-    %value and divide by the std for that value to get the mahalanobis
-    %distance for each brain region 
-end;
