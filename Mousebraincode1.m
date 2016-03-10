@@ -213,7 +213,7 @@ end;
 %controlmean
 parkinsonsdist = [];
 parkinsonscov = cov(parkinsonsmat);
-for i= 1:9
+for i= 1:10
     parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
     %for each value of parkinsons covariance, subtract the mean from that
     %value and divide by the std for that value to get the mahalanobis
