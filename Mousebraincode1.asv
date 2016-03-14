@@ -281,16 +281,14 @@ parkcell = covval(parkinsonsmat, 100, braintable, brainregionmat, bdt);
 %% Same as below (obtaining histograms and others) but from gene by gene cov matrices
 autmean = [];
 autstd = [];
-temp = zeros(length(cov(autmat')));
-
+mean(autcell{1, 1:100}(i, j))
     for i = 1:length(cov(autmat'))
         %runs length of each control rows
         for j = 1:i
-            for k = length(autcell)
             %runs for each row, proper num of col
-            temp(i, j) = temp(i, j) + autcell{1, k}(i, j);
-            end;
-        autmean(i, j) = mean(temp(i, j));
+            autme
+    
+        end;
     end;
 end;
 
