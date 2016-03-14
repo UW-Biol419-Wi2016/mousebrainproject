@@ -124,11 +124,51 @@ for i = 1:numcontrols
     controlcov = cov(controlgenebyregion);
     %covariance matrix of ith control
     
+    genecontrolcov = cov(controlgenebyregion');
+    %covariance genebygene
+    
     covvalcell{i} = controlcov; 
     %stores each successive controlcov in a cell for later analysis
+    
+    genecovvalcell{i} = genecontrolcov;
 end;
     
 %visually looked at braintable to confirm this result
+
+%% Same as below (obtaining histograms and others) but from gene by gene cov matrices
+num = {};
+
+for i=1:length(genecontrolcov);
+   eval(sprintf('temp%d', i));
+end;
+%loop that creates variable names "temp" for each row of gene by gene table
+%and stores them in a cell for later recall
+
+
+genecovtemp = zeros(length(genecontrolcov));
+
+
+
+%%
+for j = 1:length(genecovvalcell)
+    %runs control
+    
+    for i = 1:length(genecontrolcov)
+        %runs for each gene of gene by gene
+        eval(sprintf('temp%d', i));
+        
+        temp1(j, 1:i) =  genecovvalcell{j, 1}(i, 1:i);
+  
+      
+        %takes the values of covvalmatrix and puts them in temp variables of name
+        %respective to row number in gene by gene region
+    end;
+    
+end;
+
+
+
+
 %% Histograms of controls
 %lol = covvalcell{1,1}(1,1); %returns 0 = OK
 %indexing pattern for retrieving values within arrays within a cell
