@@ -36,22 +36,22 @@ for i = 1:8715
     end;
 end;
 
-%% Pulling out a diseases genes: Parkinsons
+%% Pulling out a diseases genes: Parkinsons & Huntingtons
 parkinsonsgenes = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
-
-findpark = find(strncmpi(bdt{:, 2}, 'Parkinson', 9));
-%indices within bdt for parkinson disease genes
-
+findpark = find(strncmpi(bdt{:, 2}, 'Parkinson', 9)); %indices within bdt for parkinson disease genes
     %adding the parkinson genes to their table
-        GeneName = bdt{findpark, 1};
         %calls gene name (column 1) at all findpark locations
-        
+        GeneName = bdt{findpark, 1};
+        %calls disease info (column 5) at same indices
         DiseaseInfo = bdt{findpark, 2};
-        %calls disease info (column 5) at same indices 
-   
-        parkinsonsgenes = [parkinsonsgenes; table(GeneName, DiseaseInfo)];
         %adds rows to the table, bdt, carrying the values from above
-        
+        parkinsonsgenes = [parkinsonsgenes; table(GeneName, DiseaseInfo)];
+
+huntingtonsgenes = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
+    findhunt = find(strncmpi(bdt{:, 2}, 'Huntington',10));
+    genenamehunt = bdt{findhunt, 1};
+    diseaseinfohunt = bdt{findhunt, 2};
+    huntingtonsgenes = [parkinsonsgenes; table(genenamehunt, diseaseinfohunt)];
 %% Making brainregion matrix
 %brain table sorting (turning into a matrix and tagging genes that are
 %correlated with the chosen disease. First converting to double, then
@@ -218,7 +218,7 @@ for i = 1:10
 end;
 %vector of column numbers for each temp matrix
 
-%%
+%% Finding Control Mean and Std
 
 controlstd = [];
 
@@ -259,6 +259,25 @@ for i= 1:10
     %value and divide by the std for that value to get the mahalanobis
     %distance for each brain region 
 end;
+
+%% Calculating std from mean for parkinsons vs controls
+%parkinsonsmat
+%controlstd
+%controlmean
+parkinsonsdist = [];
+parkinsonscov = cov(parkinsonsmat);
+for i= 1:10
+    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
+    %for each value of parkinsons covariance, subtract the mean from that
+    %value and divide by the std for that value to get the mahalanobis
+    %distance for each brain region 
+end;
+
+imagesc(parkinsonsdist)
+colorbar
+title('Brain Region x Brain Region Interactions Relating to Parkinsons Gene expression')
+xlabel('brain regions')
+ylabel('brain regions')
 %% Gene by region for-loop
 for i = 1:numgenesspec
     braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
@@ -276,21 +295,5 @@ for i = 1:numgenesspec
         end;
 end;
 %none of the parkinson's genes are considerably more expressed in one brain
-<<<<<<< HEAD
 %region than another, visually looked at braintable to confirm this result
-=======
 %region than another, visually looked at braintable to confirm this result
-
-%% Calculating std from mean for parkinsons vs controls
-%parkinsonsmat
-%controlstd
-%controlmean
-parkinsonsdist = [];
-parkinsonscov = cov(parkinsonsmat);
-for i= 1:10
-    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
-    %for each value of parkinsons covariance, subtract the mean from that
-    %value and divide by the std for that value to get the mahalanobis
-    %distance for each brain region 
-end;
->>>>>>> origin/master
