@@ -371,12 +371,9 @@ for i= 1:10
     huntdist(i, 1:i) = (controlmean(i, 1:i) - huntcov(i,1:i))/controlstd(i, 1:i);
 end;
 
-
-%% Visualizing the data results (dist matrices)
 figure;
 imagesc(parkinsonsdist);
 
-%%
 figure;
 imagesc(alzdist);
 
@@ -384,10 +381,7 @@ figure;
 imagesc(huntdist);
 
 figure;
-imagesc(autdist);
-
-figure;
-imagesc(schizodist);
+imagesc
 %% Gene by region for-loop
 for i = 1:numgenesspec
     braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
