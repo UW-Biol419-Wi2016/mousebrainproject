@@ -393,55 +393,71 @@ end;
 
 %% Visualizing the data results (dist matrices)
 figure;
+hold on
 subplot(1, 2, 1);
 imagesc(parkinsonsdist);
+colorbar
+title('Parkinsons Region by Region');
+textStrings = num2str(parkinsonsdist(:),'%0.2f') %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)) % trims
+[x,y] = meshgrid(1:length(parkinsonsdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+                'HorizontalAlignment','center');
+
 subplot(1, 2, 2);
 imagesc(geneparkinsonsdist);
-title('Parkinsons');
+colorbar
+title('Gene by Gene');
 
+
+%%
 figure;
 subplot(1, 2, 1);
 imagesc(alzdist);
 colorbar
-sublot(1, 2, 2);
+title('Alzheimers Region by Region');
+
+
+subplot(1, 2, 2);
 imagesc(genealzdist);
 colorbar
-title('Alzheimers');
+title('Gene by Gene');
 
 figure;
 subplot(1, 2, 1);
-colorbar
 imagesc(huntdist);
+colorbar
+title('Huntingtons Region by Region');
 
 subplot(1, 2, 2);
-colorbar
 imagesc(genehuntdist);
-
-title('Huntingtons');
+colorbar
+title('Gene by Gene');
 
 figure;
 subplot(1, 2, 1);
 colorbar
 imagesc(autdist);
-
+colorbar
+title('Autism Region by Region');
 
 subplot(1, 2, 2);
-colorbar
 imagesc(geneautdist);
-
-title('Huntingtons');
+colorbar
+title('Gene by Gene');
 
 
 
 figure;
-c
 subplot(1, 2, 1);
 imagesc(schizodist);
+colorbar
+title('Schizophrenia Region by Region');
 
 subplot(1, 2, 2);
 imagesc(geneschizodist);
 colorbar
-title('Schizophrenia Gene x Gene');
+title('Gene by Gene');
 %% Calculating std from mean for parkinsons vs controls
 %parkinsonsmat
 %controlstd

@@ -398,27 +398,47 @@ end;
 %% Visualizing the data results (dist matrices)
 figure;
 hold on
-subplot(1, 2, 1);
 imagesc(parkinsonsdist);
 colorbar
 title('Parkinsons Region by Region');
-
-
-subplot(1, 2, 2);
-imagesc(geneparkinsonsdist);
-colorbar
-title('Gene by Gene');
+textStrings = num2str(parkinsonsdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(parkinsonsdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
 
 figure;
-subplot(1, 2, 1);
+imagesc(geneparkinsonsdist);
+colorbar
+title('Parkinsons Gene by Gene');
+textStrings = num2str(geneparkinsonsdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(geneparkinsonsdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
+
+%%
+figure;
 imagesc(alzdist);
 colorbar
 title('Alzheimers Region by Region');
+textStrings = num2str(alzdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(alzdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
 
-subplot(1, 2, 2);
+figure;
 imagesc(genealzdist);
 colorbar
-title('Gene by Gene');
+title('Alzheimers Gene by Gene');
+textStrings = num2str(genealzdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(genealzdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
+
+%%
 
 figure;
 subplot(1, 2, 1);
@@ -430,6 +450,8 @@ subplot(1, 2, 2);
 imagesc(genehuntdist);
 colorbar
 title('Gene by Gene');
+
+%%
 
 figure;
 subplot(1, 2, 1);
@@ -443,7 +465,7 @@ imagesc(geneautdist);
 colorbar
 title('Gene by Gene');
 
-
+%%
 
 figure;
 subplot(1, 2, 1);
