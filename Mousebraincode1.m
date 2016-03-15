@@ -187,40 +187,6 @@ huntmat = genebyregionmaker(huntingtonsgenes, braintable, brainregionmat);
 
 alzmat = genebyregionmaker(alzgenes, braintable, brainregionmat);
 
-%% Random shuffles with function
-
-%alzcell = covvalcell(alzmat, 100, braintable, brainregionmat, bdt);
-
-alzcell= {};
-diseasemat = alzmat;
-numcontrols  = 100;
-controlgenebyregion = [];
-for i = 1:numcontrols
-
-    numgenes = length(diseasemat');
-    %number of genes in control shuffle
-
-    randomperm = randperm(9669);
-    randomsel = randomperm(1:numgenes);
-    %random indices of genes from bdt
-
-
-    randomgenetable = table([], [], 'VariableNames', {'GeneName', 'DiseaseInfo'});
-    randomtablepre = bdt(randomsel,:); 
-    randomgenetable = [randomtablepre]; %adds shuffled
-    %genes to table
-
-    controlgenebyregion = genebyregionmaker(randomgenetable, braintable, brainregionmat);
-
-    controlcov = cov(controlgenebyregion');
-    %covariance matrix of ith control
-  
-    
-    alzcell{i} = controlcov; 
-    %stores each successive controlcov in a cell for later analysis
-    
-end;
-
   
 %% Making random shuffles of genes to make sets of genebyregion matrices (for control)
  n = 10 ;
@@ -233,10 +199,10 @@ end;
 %'Cerebellum', 'Corpus Callosum', 'Motor Cortex', 'Olfactory Bulb', 'Optic Nerve', 'Prefrontal Cortex', 'Striatum', 'Thalamus', 'Hippocampus'});
 %1:10 names of new double's columns
 controlgenebyregion = [];
-numcontrols = 100;
+numcontrols = 1000;
 for i = 1:numcontrols
 
-    numgenes = length(diseasetable);
+    numgenes = 11;
     %number of genes in control shuffle
 
     randomperm = randperm(9669);
@@ -267,32 +233,55 @@ end;
 %visually looked at braintable to confirm this result
 
 %% All cells for diseases
-autcell = covval(autmat, 100, braintable, brainregionmat, bdt);
+autcell = covval(autmat, 1000, braintable, brainregionmat, bdt);
 %makes controls for genebygene autism mat
 
-alzcell = covval(alzmat, 100, braintable, brainregionmat, bdt);
+alzcell = covval(alzmat, 1000, braintable, brainregionmat, bdt);
 
-huntcell = covval(huntmat, 100, braintable, brainregionmat, bdt);
+huntcell = covval(huntmat, 1000, braintable, brainregionmat, bdt);
 
-schizocell = covval(schizomat, 100, braintable, brainregionmat, bdt);
+schizocell = covval(schizomat, 1000, braintable, brainregionmat, bdt);
 
-parkcell = covval(parkinsonsmat, 100, braintable, brainregionmat, bdt);
+parkcell = covval(parkinsonsmat, 1000, braintable, brainregionmat, bdt);
 
 %% Same as below (obtaining histograms and others) but from gene by gene cov matrices
-autmean = [];
-autstd = [];
-temp = zeros(length(cov(autmat')));
+[autmean, autstd] = cellmeanfinder(autmat, autcell, 1000);
+%finds mean and std for each combo for autism
 
-    for i = 1:length(cov(autmat'))
-        %runs length of each control rows
-        for j = 1:i
-            for k = length(autcell)
-            %runs for each row, proper num of col
-            temp(i, j) = temp(i, j) + autcell{1, k}(i, j);
-            end;
-        autmean(i, j) = mean(temp(i, j));
+[alzmean, alzstd] = cellmeanfinder(alzmat, alzcell, 1000);
+
+[parkmean, parkstd] = cellmeanfinder(parkinsonsmat, parkcell, 1000);
+
+[schizomean, schizostd] = cellmeanfinder(schizomat, schizocell, 1000);
+
+[huntmean, huntstd] = cellmeanfinder(huntmat, huntcell, 1000);
+
+%% comparing cov matrix to control cov matrices
+geneparkinsonscov = cov(parkinsonsmat');
+geneparkinsonsdist = distcomp(geneparkinsonscov, parkmean, parkstd);
+
+genealzcov = cov(alzmat');
+genealzdist = distcomp(genealzcov, alzmean, alzstd);
+
+
+genehuntcov = cov(huntmat');
+genehuntdist = distcomp(genehuntcov, huntmean, huntstd);
+
+geneautcov = cov(autmat');
+geneautdist = distcomp(geneautcov, autmean, autstd);
+
+geneschizocov = cov(schizomat');
+geneschizodist = distcomp(geneschizocov, schizomean, schizostd);
+
+
+
+    genealzdist(i, j) = (alzmean(i, j) - genealzcov(i,j))/alzstd(i, j);
+    geneautdist(i, j) = (autmean(i, j) - geneautcov(i,j))/autstd(i, j);
+    schizodist(i, j) = (schizomean(i, j) - geneschizocov(i, j))/schizostd(i, j);
+    huntdist(i, j) = (huntmean(i, j) - genehuntcov(i, j))/huntstd(i, j);
     end;
 end;
+
 
 %% Histograms of controls
 %lol = covvalcell{1,1}(1,1); %returns 0 = OK
@@ -404,24 +393,64 @@ end;
 
 %% Visualizing the data results (dist matrices)
 figure;
+hold on
+subplot(1, 2, 1);
 imagesc(parkinsonsdist);
-title('Parkinsons');
+colorbar
+title('Parkinsons Region by Region');
+
+
+subplot(1, 2, 2);
+imagesc(geneparkinsonsdist);
+colorbar
+title('Gene by Gene');
 
 figure;
+subplot(1, 2, 1);
 imagesc(alzdist);
-title('Alzheimers');
+colorbar
+title('Alzheimers Region by Region');
+
+subplot(1, 2, 2);
+imagesc(genealzdist);
+colorbar
+title('Gene by Gene');
 
 figure;
+subplot(1, 2, 1);
 imagesc(huntdist);
-title('Huntingtons');
+colorbar
+title('Huntingtons Region by Region');
+
+subplot(1, 2, 2);
+imagesc(genehuntdist);
+colorbar
+title('Gene by Gene');
 
 figure;
+subplot(1, 2, 1);
+colorbar
 imagesc(autdist);
+colorbar
+title('Autism Region by Region');
+
+subplot(1, 2, 2);
+imagesc(geneautdist);
+colorbar
+title('Gene by Gene');
+
 
 
 figure;
+subplot(1, 2, 1);
 imagesc(schizodist);
+colorbar
+title('Schizophrenia Region by Region');
 
+subplot(1, 2, 2);
+imagesc(geneschizodist);
+colorbar
+title('Gene by Gene');
 %% Calculating std from mean for parkinsons vs controls
 %parkinsonsmat
 %controlstd
