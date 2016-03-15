@@ -1,8 +1,8 @@
 %Part 1 - setting up github
 
 %% reading data
-braintable = readtable('BrainRegionTotalDataset_Log2FoldChange.xlsx');
-diseasetable = readtable('MGIdisease.txt',...
+braintable = readtable('/Users/esteligarcia/GitHub/mousebrainproject/Data/BrainRegionTotalDataset_Log2FoldChange.xlsx');
+diseasetable = readtable('/Users/esteligarcia/GitHub/mousebrainproject/Data/MGIdisease.txt',...
     'delimiter', 'tab','readvariablenames', 0);
 % testing if names are the same
 
@@ -202,7 +202,11 @@ controlgenebyregion = [];
 numcontrols = 1000;
 for i = 1:numcontrols
 
+<<<<<<< Updated upstream
     numgenes = 11;
+=======
+    numgenes = size(diseasetable);
+>>>>>>> Stashed changes
     %number of genes in control shuffle
 
     randomperm = randperm(9669);
