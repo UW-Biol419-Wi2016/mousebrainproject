@@ -196,10 +196,14 @@ cellalzmat = genebyregionmaker(alzgenescell, braincelltable, braincellmat);
 controlgenebyregion = [];
 numcontrols = 100;
 for i = 1:numcontrols
+<<<<<<< HEAD
 
 
     numgenes = 11;
 
+=======
+    numgenes = 11;
+>>>>>>> origin/master
     %number of genes in control shuffle
 
     randomperm = randperm(9669);
@@ -343,6 +347,7 @@ geneautdist = distcomp(geneautcov, autmean, autstd);
 geneschizocov = cov(schizomat');
 geneschizodist = distcomp(geneschizocov, schizomean, schizostd);
 
+<<<<<<< HEAD
 
 %% same as above for gene by gene vs cell type
 
@@ -382,6 +387,8 @@ cellschizodist = distcomp(cellschizocov, cellcovvalmean, cellcovvalstd);
 
   
 
+=======
+>>>>>>> origin/master
 %% Histograms of controls
 %lol = covvalcell{1,1}(1,1); %returns 0 = OK
 %indexing pattern for retrieving values within arrays within a cell
@@ -420,9 +427,7 @@ for j = 1:length(covvalcell)
     
 end;
 
-
 %%
-
 
 num = {temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10};
 
@@ -495,7 +500,9 @@ figure;
 hold on
 imagesc(parkinsonsdist);
 colorbar
-title('Parkinsons Region by Region');
+title('1A Parkinsons Gene Expression by Region');
+xlabel('Brain Region');
+ylabel('Brain Region');
 textStrings = num2str(parkinsonsdist(:),'%0.2f'); %make strings from matrix
 textStrings = strtrim(cellstr(textStrings)); % trims
 [x,y] = meshgrid(1:length(parkinsonsdist));   %# Create x and y coordinates for the strings
@@ -505,18 +512,21 @@ hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
 figure;
 imagesc(geneparkinsonsdist);
 colorbar
-title('Parkinsons Gene by Gene');
+title('1B Parkinsons Gene Expression by Gene');
+xlabel('Genes');
+ylabel('Genes');
 textStrings = num2str(geneparkinsonsdist(:),'%0.2f'); %make strings from matrix
 textStrings = strtrim(cellstr(textStrings)); % trims
 [x,y] = meshgrid(1:length(geneparkinsonsdist));   %# Create x and y coordinates for the strings
 hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
               'HorizontalAlignment','center');
 
-%%
 figure;
 imagesc(alzdist);
 colorbar
-title('Alzheimers Region by Region');
+title('2A Alzheimers Gene Expression by Region');
+xlabel('Brain Region');
+ylabel('Brain Region');
 textStrings = num2str(alzdist(:),'%0.2f'); %make strings from matrix
 textStrings = strtrim(cellstr(textStrings)); % trims
 [x,y] = meshgrid(1:length(alzdist));   %# Create x and y coordinates for the strings
@@ -526,87 +536,84 @@ hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
 figure;
 imagesc(genealzdist);
 colorbar
-title('Alzheimers Gene by Gene');
+title('2B Alzheimers Gene Expression by Gene');
+xlabel('Genes');
+ylabel('Genes');
 textStrings = num2str(genealzdist(:),'%0.2f'); %make strings from matrix
 textStrings = strtrim(cellstr(textStrings)); % trims
 [x,y] = meshgrid(1:length(genealzdist));   %# Create x and y coordinates for the strings
 hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
               'HorizontalAlignment','center');
 
-%%
 
 figure;
-subplot(1, 2, 1);
 imagesc(huntdist);
 colorbar
-title('Huntingtons Region by Region');
+title('3A Huntingtons Gene Expression by Region');
+xlabel('Brain Region');
+ylabel('Brain Region');
+textStrings = num2str(huntdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(huntdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
 
-subplot(1, 2, 2);
+figure;
 imagesc(genehuntdist);
 colorbar
-title('Gene by Gene');
-
-%%
+title('3B Huntingtons Gene Expression by Genes');
+xlabel('Genes');
+ylabel('Genes');
+textStrings = num2str(genehuntdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(genehuntdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
 
 figure;
-subplot(1, 2, 1);
-colorbar
 imagesc(autdist);
 colorbar
-title('Autism Region by Region');
-
-subplot(1, 2, 2);
-imagesc(geneautdist);
-colorbar
-title('Gene by Gene');
-
-%%
+title('4A Autism Gene Expression by Region');
+xlabel('Region');
+ylabel('Region');
+textStrings = num2str(autdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(autdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
 
 figure;
-subplot(1, 2, 1);
+imagesc(geneautdist);
+colorbar
+title('4B Autism Gene Expression by Genes');
+xlabel('Genes');
+ylabel('Genes');
+textStrings = num2str(geneautdist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(geneautdist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
+
+figure;
 imagesc(schizodist);
 colorbar
-title('Schizophrenia Region by Region');
+title('5A Schizophrenia Gene Expression by Region');
+xlabel('Region');
+ylabel('Region');
+textStrings = num2str(schizodist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(schizodist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
 
-subplot(1, 2, 2);
+figure;
 imagesc(geneschizodist);
 colorbar
-title('Gene by Gene');
-%% Calculating std from mean for parkinsons vs controls
-%parkinsonsmat
-%controlstd
-%controlmean
-parkinsonsdist = [];
-parkinsonscov = cov(parkinsonsmat);
-for i= 1:10
-    parkinsonsdist(i, 1:i) = (controlmean(i, 1:i) - parkinsonscov(i,1:i))/controlstd(i, 1:i);
-    %for each value of parkinsons covariance, subtract the mean from that
-    %value and divide by the std for that value to get the mahalanobis
-    %distance for each brain region 
-end;
-
-imagesc(parkinsonsdist)
-colorbar
-title('Brain Region x Brain Region Interactions Relating to Parkinsons Gene expression')
-xlabel('brain regions')
-ylabel('brain regions')
-
-%% Gene by region for-loop
-for i = 1:numgenesspec
-    braingenestemp = strncmpi(diseasegenes{i, 1}, braintable{:, 1}, 10); 
-    matches = max(braingenestemp);
-    if matches == 1;
-    %if there is a disease gene match, then:
-   
-            temploc = find(braingenestemp == 1);
-            %finds location of max of braingenestemp (where match occurred)
-            
-            genebyregion(i, :) = brainregionmat(temploc, :);
-            %makes the ith row of genebyregion into the temploc row of
-            %brainregionmat, which is arranged the same as braintable
-            %(where the temploc index is from)
-        end;
-end;
-%none of the parkinson's genes are considerably more expressed in one brain
-%region than another, visually looked at braintable to confirm this result
-%region than another, visually looked at braintable to confirm this result
+title('5B Schizophrenia Gene Expression by Gene');
+xlabel('Genes');
+ylabel('Genes');
+textStrings = num2str(geneschizodist(:),'%0.2f'); %make strings from matrix
+textStrings = strtrim(cellstr(textStrings)); % trims
+[x,y] = meshgrid(1:length(geneschizodist));   %# Create x and y coordinates for the strings
+hStrings = text(x(:),y(:),textStrings(:),...      %# Plot the strings
+              'HorizontalAlignment','center');
