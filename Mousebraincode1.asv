@@ -313,19 +313,19 @@ cellparkcell = covval(cellparkmat, 100, braincelltable, braincellmat, bdtcell);
 
 %% Obtaining mean and std for celltype controls
 
-[cellautmean, cellautstd] = cellmeanfinder(autmat, autcell, 1000);
+[autmeancell, autstdcell] = cellmeanfinder(autmat, autcell, 1000);
 %finds mean and std for each combo for autism
 
-[cellalzmean, cellalzstd] = cellmeanfinder(alzmat, alzcell, 1000);
+[alzmeancell, alzstdcell] = cellmeanfinder(alzmat, alzcell, 1000);
 
-[cellparkmean, cellparkstd] = cellmeanfinder(parkinsonsmat, parkcell, 1000);
+[parkmeancell, parkstdcell] = cellmeanfinder(parkinsonsmat, parkcell, 1000);
 
-[cellschizomean, cellschizostd] = cellmeanfinder(schizomat, schizocell, 1000);
+[schizomeancell, schizostdcell] = cellmeanfinder(schizomat, schizocell, 1000);
 
-[cellhuntmean, cellhuntstd] = cellmeanfinder(huntmat, huntcell, 1000);
+[huntmeancell, huntstdcell] = cellmeanfinder(huntmat, huntcell, 1000);
 
-[cellcovvalmean, cellcovvalstd] = cellmeanfinder2(cellparkmat, cellcovvalcell, 1000);
-%Mean and std for cell type by celltype controls
+[covvalmeancell, covvalstdcell] = cellmeanfinder2(cellparkcell, cellcovvalcell, 1000);
+
 %% comparing cov matrix to control cov matrices
 geneparkinsonscov = cov(parkinsonsmat');
 geneparkinsonsdist = distcomp(geneparkinsonscov, parkmean, parkstd);
@@ -343,41 +343,6 @@ geneautdist = distcomp(geneautcov, autmean, autstd);
 geneschizocov = cov(schizomat');
 geneschizodist = distcomp(geneschizocov, schizomean, schizostd);
 
-
-%% same as above for gene by gene vs cell type
-
-cellgeneparkcov = cov(cellparkmat');
-cellgeneparkdist = distcomp(cellgeneparkcov, cellparkmean, cellparkstd);
-
-cellgenealzcov = cov(cellalzmat');
-cellgenealzdist = distcomp(cellgenealzcov, cellalzmean, cellalzstd);
-
-
-cellgenehuntcov = cov(cellhuntmat');
-cellgenehuntdist = distcomp(cellgenehuntcov, cellhuntmean, cellhuntstd);
-
-cellgeneautcov = cov(cellautmat');
-cellgeneautdist = distcomp(cellgeneautcov, cellautmean, cellautstd);
-
-cellgeneschizocov = cov(cellschizomat');
-cellgeneschizodist = distcomp(cellgeneschizocov, cellschizomean, cellschizostd);
-
-%% making final matrices for celltype by cell type vs genes
-cellparkcov = cov(cellparkmat);
-cellparkdist = distcomp(cellparkcov, cellcovvalmean, cellcovvalstd);
-
-cellalzcov = cov(cellalzmat);
-cellalzdist = distcomp(cellalzcov, cellcovvalmean, cellcovvalstd);
-
-
-cellhuntcov = cov(cellhuntmat);
-cellhuntdist = distcomp(cellhuntcov, cellcovvalmean, cellcovvalstd);
-
-cellautcov = cov(cellautmat);
-cellautdist = distcomp(cellautcov, cellcovvalmean, cellcovvalstd);
-
-cellschizocov = cov(cellschizomat);
-cellschizodist = distcomp(cellschizocov, cellcovvalmean, cellcovvalstd);
 
 
   

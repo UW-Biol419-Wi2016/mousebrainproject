@@ -1,8 +1,10 @@
-function [ C ] = covval( alzmat, numcontrols, braintable, brainregionmat, bdt )
+function [ C ] = covval( diseasemat, numcontrols, braintable, brainregionmat, bdt )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-alzcell= {};
-diseasemat = alzmat;
+diseasecell= {};
+diseasemat = diseasemat;
+
+[r, c] = size(bdt);
 
 controlgenebyregion = [];
 for i = 1:numcontrols
@@ -10,7 +12,7 @@ for i = 1:numcontrols
     numgenes = length(diseasemat');
     %number of genes in control shuffle
 
-    randomperm = randperm(9669);
+    randomperm = randperm(r);
     randomsel = randomperm(1:numgenes);
     %random indices of genes from bdt
 
@@ -26,11 +28,11 @@ for i = 1:numcontrols
     %covariance matrix of ith control
   
     
-    alzcell{i} = controlcov; 
+    diseasecell{i} = controlcov; 
     %stores each successive controlcov in a cell for later analysis
     
 end;
 
-C = alzcell;
+C = diseasecell;
 end
 
